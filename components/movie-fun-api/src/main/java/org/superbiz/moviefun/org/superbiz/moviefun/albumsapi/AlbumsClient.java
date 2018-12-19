@@ -18,6 +18,7 @@ package org.superbiz.moviefun.org.superbiz.moviefun.albumsapi; /**
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestOperations;
@@ -46,7 +47,17 @@ public class AlbumsClient {
     }
 
     public AlbumInfo find(long id) {
-        return restOperations.getForObject(albumsUrl + "/" + id,AlbumInfo.class);
+        log.info("Getting albums info using rest api call : URL : " + albumsUrl + "/" + id);
+        AlbumInfo albumInfo = restOperations.getForObject(albumsUrl + "/" + id, AlbumInfo.class);
+        log.info("Rest api call retrieved albums information : " + albumInfo);
+        return albumInfo;
+    }
+
+    public HttpEntity getCover(long id) {
+        log.info("Getting cover info using rest api call : URL : " + albumsUrl + "/" + id);
+        HttpEntity coverInfo = restOperations.getForEntity(albumsUrl + "/" + id + "/cover", HttpEntity.class);
+        log.info("Rest api call retrieved cover information : " + coverInfo);
+        return coverInfo;
     }
 
     public List<AlbumInfo> getAlbums() {

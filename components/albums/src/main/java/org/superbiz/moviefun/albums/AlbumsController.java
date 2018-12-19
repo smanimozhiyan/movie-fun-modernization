@@ -77,12 +77,27 @@ public class AlbumsController {
         return format("redirect:/albums/%d", albumId);
     }
 
+//    @GetMapping("/{albumId}/cover")
+//    public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException, URISyntaxException {
+//        Optional<Blob> maybeCoverBlob = blobStore.get(getCoverBlobName(albumId));
+//        Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
+//
+//        byte[] imageBytes = IOUtils.toByteArray(coverBlob.inputStream);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.parseMediaType(coverBlob.contentType));
+//        headers.setContentLength(imageBytes.length);
+//
+//        return new HttpEntity<>(imageBytes, headers);
+//    }
+
     @GetMapping("/{albumId}/cover")
     public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException, URISyntaxException {
         Optional<Blob> maybeCoverBlob = blobStore.get(getCoverBlobName(albumId));
         Blob coverBlob = maybeCoverBlob.orElseGet(this::buildDefaultCoverBlob);
 
         byte[] imageBytes = IOUtils.toByteArray(coverBlob.inputStream);
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(coverBlob.contentType));
